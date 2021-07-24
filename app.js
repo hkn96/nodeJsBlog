@@ -1,6 +1,20 @@
 const express = require('express');
 const app = express();
-app.listen(3000);
+
+// mongoDBmodel
+const Blog = require('./models/blogs');
+
+// mongoose
+const mongoose = require('mongoose');
+mongoose
+  .connect('mongodb://localhost/NodeBlogDB', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true,
+  })
+  .then(result => app.listen(3000))
+  .catch(err => console.log(err));
 
 const morgan = require('morgan');
 
@@ -14,7 +28,14 @@ app.use(express.static('public'));
 app.use(morgan('tiny'));
 
 app.get('/', (req, res) => {
-  res.render('index', { title: 'Home Page' });
+  Blog.find()
+    .sort({ createdAt: 1 })
+    .then(result => {
+      res.render('index', { title: 'Home Page', blogs: result });
+    })
+    .catch(err => {
+      console.log(err);
+    });
 });
 
 app.get('/about', (req, res) => {

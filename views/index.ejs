@@ -5,23 +5,19 @@
   </head>
   <body>
     <%-include('./inc/nav')%>
-    <h1>Home Page</h1>
+
     <section>
       <h2>Content</h2>
       <ul>
+        <% blogs.forEach(blog=>{ %>
+
         <li>
-          <a href="#">Blog 1</a>
-          <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
+          <a href="#"><%=blog.title%></a>
+          <p><%=blog.short%></p>
         </li>
-        <li>
-          <a href="#">Blog 2</a>
-          <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
-        </li>
-        <li>
-          <a href="#">Blog 3</a>
-          <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
-        </li>
+        <%})%>
       </ul>
     </section>
+    <%-include('./inc/footer')%>
   </body>
 </html>
