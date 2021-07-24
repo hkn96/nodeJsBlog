@@ -1,19 +1,30 @@
 const express = require('express');
 const app = express();
+app.listen(3000);
+
+const morgan = require('morgan');
 
 // template engine
 app.set('view engine', 'ejs');
 
-app.listen(3000);
+// statische seite
+app.use(express.static('public'));
+
+// middleware
+app.use(morgan('tiny'));
 
 app.get('/', (req, res) => {
-  res.render('index');
+  res.render('index', { title: 'Home Page' });
 });
 
 app.get('/about', (req, res) => {
-  res.render('about');
+  res.render('about', { title: 'About us' });
+});
+
+app.get('/about-us', (req, res) => {
+  res.redirect('/about');
 });
 
 app.use((req, res) => {
-  res.status(404).sendFile('./views/404.html', { root: __dirname });
+  res.status(404).render('404', { title: 'Error' });
 });
