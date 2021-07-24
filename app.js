@@ -25,6 +25,10 @@ app.get('/about-us', (req, res) => {
   res.redirect('/about');
 });
 
+app.get('/login', (req, res) => {
+  res.render('login', { title: 'Login' });
+});
+
 app.use((req, res) => {
   res.status(404).render('404', { title: 'Error' });
 });

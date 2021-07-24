@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%-include('./inc/header')%>
+  </head>
+  <body>
+    <%-include('./inc/nav')%>
+    <section>
+      <h1 style="margin: auto">Login</h1>
+      <form action="" method="post">
+        <input type="text" name="username" placeholder="Username" required />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password..."
+          required
+        />
+        <input type="submit" value="Send" />
+      </form>
+    </section>
+  </body>
+</html>
