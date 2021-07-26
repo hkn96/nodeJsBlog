@@ -34,14 +34,13 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 
 // middleware
-app.use(morgan('tiny'));
+app.use(morgan('dev'));
 
 // admin routes use
-app.use(adminRoutes);
+app.use('/admin', adminRoutes);
 
 // blog routes use
-app.use(blogRoutes);
-
+app.use('/blog', blogRoutes);
 app.get('/', (req, res) => {
   res.redirect('/blog');
 });
@@ -49,7 +48,6 @@ app.get('/', (req, res) => {
 app.get('/about', (req, res) => {
   res.render('about', { title: 'About us' });
 });
-
 app.get('/about-us', (req, res) => {
   res.redirect('/about');
 });
