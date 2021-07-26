@@ -1,5 +1,7 @@
 const express = require('express');
 const chalk = require('chalk');
+const adminRoutes = require('./routes/adminRoutes');
+const blogRoutes = require('./routes/blogRoutes');
 
 const app = express();
 
@@ -18,6 +20,7 @@ mongoose
   .then(result => app.listen(3000))
   .catch(err => console.log(err));
 
+// morgan import
 const morgan = require('morgan');
 
 // template engine ejs
@@ -26,29 +29,21 @@ app.set('view engine', 'ejs');
 // statische seite
 app.use(express.static('public'));
 
+// expressbodyParser
+
+app.use(express.urlencoded({ extended: true }));
+
 // middleware
 app.use(morgan('tiny'));
 
-app.get('/', (req, res) => {
-  Blog.find()
-    .sort({ createdAt: 1 })
-    .then(result => {
-      res.render('index', { title: 'Home Page', blogs: result });
-    })
-    .catch(err => {
-      console.log(chalk.red(err));
-    });
-});
+// admin routes use
+app.use(adminRoutes);
 
-app.get('/blog/:id', (req, res) => {
-  const id = req.params.id;
-  Blog.findById(id)
-    .then(result => {
-      res.render('blog', { blog: result, title: 'info' });
-    })
-    .catch(err => {
-      res.status(404).render('404', { title: 'Error' });
-    });
+// blog routes use
+app.use(blogRoutes);
+
+app.get('/', (req, res) => {
+  res.redirect('/blog');
 });
 
 app.get('/about', (req, res) => {
