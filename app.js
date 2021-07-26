@@ -1,4 +1,6 @@
 const express = require('express');
+const chalk = require('chalk');
+
 const app = express();
 
 // mongoDBmodel
@@ -18,7 +20,7 @@ mongoose
 
 const morgan = require('morgan');
 
-// template engine
+// template engine ejs
 app.set('view engine', 'ejs');
 
 // statische seite
@@ -34,7 +36,18 @@ app.get('/', (req, res) => {
       res.render('index', { title: 'Home Page', blogs: result });
     })
     .catch(err => {
-      console.log(err);
+      console.log(chalk.red(err));
+    });
+});
+
+app.get('/blog/:id', (req, res) => {
+  const id = req.params.id;
+  Blog.findById(id)
+    .then(result => {
+      res.render('blog', { blog: result, title: 'info' });
+    })
+    .catch(err => {
+      res.status(404).render('404', { title: 'Error' });
     });
 });
 
